@@ -48,23 +48,23 @@ export default function SupportPage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12"
         >
-          <motion.div variants={cardVariants} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md text-center">
+          <motion.div variants={cardVariants} className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-md text-center">
             <motion.div
               whileHover={{ scale: 1.1, rotate: 5 }}
-              className="bg-red-100 dark:bg-red-900/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+              className="bg-red-100 dark:bg-red-900/30 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4"
             >
-              <Heart className="h-8 w-8 text-red-600 dark:text-red-400" />
+              <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-red-600 dark:text-red-400" />
             </motion.div>
-            <h3 className="font-bold text-lg mb-2">One-Time Donation</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            <h3 className="font-bold text-base sm:text-lg mb-2">One-Time Donation</h3>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
               Make a one-time contribution to support our work
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full bg-primary text-white py-2 rounded-md hover:bg-primary-dark transition-colors"
+              className="w-full bg-primary text-white py-2.5 sm:py-2 rounded-md hover:bg-primary-dark transition-colors text-sm sm:text-base min-h-[44px] touch-manipulation"
             >
               Donate via PayPal
             </motion.button>

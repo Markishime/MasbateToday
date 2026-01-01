@@ -32,12 +32,12 @@ export default function NewsletterSignup() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-primary to-primary-dark rounded-lg p-6 shadow-md text-white">
-      <div className="flex items-center space-x-2 mb-4">
-        <Mail className="h-5 w-5" />
-        <h3 className="font-semibold text-lg">Newsletter</h3>
+    <div className="bg-gradient-to-br from-primary to-primary-dark rounded-lg p-4 sm:p-6 shadow-md text-white">
+      <div className="flex items-center space-x-2 mb-3 sm:mb-4">
+        <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
+        <h3 className="font-semibold text-base sm:text-lg">Newsletter</h3>
       </div>
-      <p className="text-sm mb-4 opacity-90">
+      <p className="text-xs sm:text-sm mb-3 sm:mb-4 opacity-90">
         Get daily/weekly news digests delivered to your inbox.
       </p>
       {submitted ? (
@@ -58,7 +58,7 @@ export default function NewsletterSignup() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-white text-primary font-semibold py-2 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50"
+            className="w-full bg-white text-primary font-semibold py-2.5 sm:py-2 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 text-sm sm:text-base min-h-[44px] touch-manipulation"
           >
             {loading ? "Subscribing..." : "Subscribe"}
           </button>

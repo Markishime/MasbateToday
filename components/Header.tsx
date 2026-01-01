@@ -28,8 +28,8 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-primary">
+          <Link href="/" className="flex items-center space-x-1 sm:space-x-2">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold text-primary">
               Masbate <span className="text-secondary">Today</span>
             </div>
           </Link>
@@ -52,25 +52,27 @@ export default function Header() {
           </nav>
 
           {/* Right Side Actions */}
-          <div className="flex items-center space-x-4">
-            <LanguageToggle />
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            <div className="hidden sm:block">
+              <LanguageToggle />
+            </div>
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="p-2 text-gray-600 hover:text-primary dark:text-gray-300"
+              className="p-2 sm:p-2.5 text-gray-600 hover:text-primary dark:text-gray-300 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
               aria-label="Search"
             >
-              <Search className="h-5 w-5" />
+              <Search className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
 
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2 text-gray-600 hover:text-primary dark:text-gray-300"
+              className="p-2 sm:p-2.5 text-gray-600 hover:text-primary dark:text-gray-300 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? (
-                <Sun className="h-5 w-5" />
+                <Sun className="h-5 w-5 sm:h-6 sm:w-6" />
               ) : (
-                <Moon className="h-5 w-5" />
+                <Moon className="h-5 w-5 sm:h-6 sm:w-6" />
               )}
             </button>
 

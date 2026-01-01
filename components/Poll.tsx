@@ -83,13 +83,13 @@ export default function Poll({ pollId, articleId }: PollProps) {
   const isExpired = poll.expiresAt && new Date() > poll.expiresAt;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md my-8">
-      <div className="flex items-center space-x-2 mb-4">
-        <BarChart3 className="h-5 w-5 text-primary" />
-        <h3 className="text-xl font-bold">Poll</h3>
+    <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-md my-6 sm:my-8">
+      <div className="flex items-center space-x-2 mb-3 sm:mb-4">
+        <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+        <h3 className="text-lg sm:text-xl font-bold">Poll</h3>
       </div>
 
-      <p className="text-lg mb-6">{poll.question}</p>
+      <p className="text-base sm:text-lg mb-4 sm:mb-6">{poll.question}</p>
 
       <div className="space-y-3">
         {poll.options.map((option) => {
@@ -125,7 +125,7 @@ export default function Poll({ pollId, articleId }: PollProps) {
               ) : (
                 <button
                   onClick={() => handleVote(option.id)}
-                  className="w-full text-left p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg hover:border-primary hover:bg-primary/5 transition-colors"
+                  className="w-full text-left p-3 sm:p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg hover:border-primary hover:bg-primary/5 transition-colors min-h-[44px] touch-manipulation text-sm sm:text-base"
                 >
                   {option.text}
                 </button>

@@ -38,7 +38,7 @@ export default function HeroCarousel({ articles }: HeroCarouselProps) {
   const currentArticle = articles[currentIndex];
 
   return (
-    <div className="relative h-[500px] md:h-[600px] overflow-hidden rounded-lg">
+    <div className="relative h-[350px] sm:h-[450px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
@@ -60,21 +60,21 @@ export default function HeroCarousel({ articles }: HeroCarouselProps) {
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 text-white">
+          <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 lg:p-12 text-white">
             <div className="container mx-auto">
               <div className="max-w-3xl">
-                <span className="inline-block px-3 py-1 bg-primary rounded-full text-sm font-semibold mb-4">
+                <span className="inline-block px-2 sm:px-3 py-1 bg-primary rounded-full text-xs sm:text-sm font-semibold mb-2 sm:mb-4">
                   Featured Story
                 </span>
                 <Link href={`/article/${currentArticle.id}`}>
-                  <h1 className="text-3xl md:text-5xl font-bold mb-4 hover:text-primary-light transition-colors cursor-pointer">
+                  <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 sm:mb-4 hover:text-primary-light transition-colors cursor-pointer line-clamp-2 sm:line-clamp-none leading-tight">
                     {currentArticle.title}
                   </h1>
                 </Link>
-                <p className="text-lg md:text-xl mb-4 line-clamp-2">
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-none">
                   {currentArticle.excerpt}
                 </p>
-                <div className="flex items-center space-x-4 text-sm">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm">
                   <span>{formatDate(currentArticle.publishedAt || currentArticle.createdAt)}</span>
                   <span>•</span>
                   <span>{currentArticle.readingTime} min read</span>

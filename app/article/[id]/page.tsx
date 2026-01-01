@@ -77,11 +77,11 @@ export default async function ArticlePage({
             )}
           </div>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 leading-tight">
             {article.title}
           </h1>
 
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-6">
             {article.excerpt}
           </p>
 
@@ -111,7 +111,7 @@ export default async function ArticlePage({
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6 }}
-              className="relative w-full h-96 md:h-[500px] mb-8 rounded-lg overflow-hidden"
+              className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[500px] mb-6 sm:mb-8 rounded-lg overflow-hidden"
             >
             <Image
               src={article.featuredImage}

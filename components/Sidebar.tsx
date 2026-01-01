@@ -46,26 +46,26 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="space-y-6">
+    <aside className="space-y-4 sm:space-y-6">
       {/* Weather Widget */}
       {weather && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-md">
           <div className="flex items-center justify-between mb-2">
             <h3 className="font-semibold text-lg">Masbate Weather</h3>
             <Cloud className="h-6 w-6 text-blue-500" />
           </div>
-          <div className="text-3xl font-bold">{weather.temp}°C</div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">
+          <div className="text-2xl sm:text-3xl font-bold">{weather.temp}°C</div>
+          <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
             {weather.condition}
           </div>
         </div>
       )}
 
       {/* Trending Topics */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md">
-        <div className="flex items-center space-x-2 mb-4">
-          <TrendingUp className="h-5 w-5 text-primary" />
-          <h3 className="font-semibold text-lg">Trending Topics</h3>
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-md">
+        <div className="flex items-center space-x-2 mb-3 sm:mb-4">
+          <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+          <h3 className="font-semibold text-base sm:text-lg">Trending Topics</h3>
         </div>
         <ul className="space-y-2">
           {trendingTopics.map((topic, index) => (

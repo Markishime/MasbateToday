@@ -24,7 +24,7 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
       <Link href={`/article/${article.id}`}>
         <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
           {article.featuredImage && (
-            <div className={`relative ${featured ? "h-64" : "h-48"} overflow-hidden`}>
+            <div className={`relative ${featured ? "h-48 sm:h-56 md:h-64" : "h-40 sm:h-44 md:h-48"} overflow-hidden`}>
               <Image
                 src={article.featuredImage}
                 alt={article.title}
@@ -62,18 +62,18 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
               </span>
             </div>
 
-            <h2 className={`font-bold mb-2 group-hover:text-primary transition-colors ${
-              featured ? "text-xl" : "text-lg"
+            <h2 className={`font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2 ${
+              featured ? "text-lg sm:text-xl" : "text-base sm:text-lg"
             }`}>
               {article.title}
             </h2>
 
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-3 line-clamp-2 sm:line-clamp-3">
               {truncateText(article.excerpt, featured ? 200 : 120)}
             </p>
 
-            <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-              <div className="flex items-center space-x-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 text-xs text-gray-500 dark:text-gray-400">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 <span className="flex items-center">
                   <Clock className="h-3 w-3 mr-1" />
                   {article.readingTime} min read
@@ -83,7 +83,8 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
                   {article.views} views
                 </span>
               </div>
-              <span className="text-primary font-semibold">Read more →</span>
+              <span className="text-primary font-semibold hidden sm:inline">Read more →</span>
+              <span className="text-primary font-semibold sm:hidden">Read →</span>
             </div>
           </div>
         </div>

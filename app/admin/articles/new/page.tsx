@@ -83,8 +83,8 @@ export default function NewArticlePage() {
   if (!admin) return null;
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-8">Create New Article</h1>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-4xl">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Create New Article</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>

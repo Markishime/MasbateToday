@@ -78,7 +78,7 @@ export default function VideoHero({
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative w-full h-[600px] md:h-[700px] overflow-hidden rounded-lg shadow-2xl"
+        className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden rounded-lg shadow-2xl"
       >
         <div className="absolute inset-0">
           <iframe
@@ -98,14 +98,14 @@ export default function VideoHero({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-white z-10"
+          className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 lg:p-12 text-white z-10"
         >
           <div className="container mx-auto max-w-4xl">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-bold mb-2 sm:mb-4 leading-tight"
             >
               {title}
             </motion.h1>
@@ -113,7 +113,7 @@ export default function VideoHero({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.6 }}
-              className="text-lg md:text-xl mb-6 max-w-2xl"
+              className="text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl line-clamp-2 sm:line-clamp-none"
             >
               {subtitle}
             </motion.p>
@@ -121,41 +121,41 @@ export default function VideoHero({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9, duration: 0.6 }}
-              className="flex items-center space-x-4"
+              className="flex flex-wrap items-center gap-2 sm:gap-4"
             >
               <button
                 onClick={togglePlay}
-                className="flex items-center space-x-2 px-6 py-3 bg-primary hover:bg-primary-dark rounded-lg transition-colors"
+                className="flex items-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 bg-primary hover:bg-primary-dark rounded-lg transition-colors text-sm sm:text-base min-h-[44px] touch-manipulation"
               >
                 {isPlaying ? (
                   <>
-                    <Pause className="h-5 w-5" />
+                    <Pause className="h-4 w-4 sm:h-5 sm:w-5" />
                     <span>Pause</span>
                   </>
                 ) : (
                   <>
-                    <Play className="h-5 w-5" />
+                    <Play className="h-4 w-4 sm:h-5 sm:w-5" />
                     <span>Play</span>
                   </>
                 )}
               </button>
               <button
                 onClick={toggleMute}
-                className="p-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg transition-colors"
+                className="p-2 sm:p-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
                 aria-label={isMuted ? "Unmute" : "Mute"}
               >
                 {isMuted ? (
-                  <VolumeX className="h-5 w-5" />
+                  <VolumeX className="h-4 w-4 sm:h-5 sm:w-5" />
                 ) : (
-                  <Volume2 className="h-5 w-5" />
+                  <Volume2 className="h-4 w-4 sm:h-5 sm:w-5" />
                 )}
               </button>
               <button
                 onClick={toggleFullscreen}
-                className="p-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg transition-colors"
+                className="p-2 sm:p-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
                 aria-label="Fullscreen"
               >
-                <Maximize className="h-5 w-5" />
+                <Maximize className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
             </motion.div>
           </div>
@@ -172,7 +172,7 @@ export default function VideoHero({
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative w-full h-[600px] md:h-[700px] overflow-hidden rounded-lg shadow-2xl"
+        className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden rounded-lg shadow-2xl"
       >
         <video
           ref={videoRef}
@@ -191,14 +191,14 @@ export default function VideoHero({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-white z-10"
+          className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 lg:p-12 text-white z-10"
         >
           <div className="container mx-auto max-w-4xl">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-bold mb-2 sm:mb-4 leading-tight"
             >
               {title}
             </motion.h1>
@@ -206,7 +206,7 @@ export default function VideoHero({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.6 }}
-              className="text-lg md:text-xl mb-6 max-w-2xl"
+              className="text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl line-clamp-2 sm:line-clamp-none"
             >
               {subtitle}
             </motion.p>
@@ -214,41 +214,41 @@ export default function VideoHero({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9, duration: 0.6 }}
-              className="flex items-center space-x-4"
+              className="flex flex-wrap items-center gap-2 sm:gap-4"
             >
               <button
                 onClick={togglePlay}
-                className="flex items-center space-x-2 px-6 py-3 bg-primary hover:bg-primary-dark rounded-lg transition-colors"
+                className="flex items-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 bg-primary hover:bg-primary-dark rounded-lg transition-colors text-sm sm:text-base min-h-[44px] touch-manipulation"
               >
                 {isPlaying ? (
                   <>
-                    <Pause className="h-5 w-5" />
+                    <Pause className="h-4 w-4 sm:h-5 sm:w-5" />
                     <span>Pause</span>
                   </>
                 ) : (
                   <>
-                    <Play className="h-5 w-5" />
+                    <Play className="h-4 w-4 sm:h-5 sm:w-5" />
                     <span>Play</span>
                   </>
                 )}
               </button>
               <button
                 onClick={toggleMute}
-                className="p-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg transition-colors"
+                className="p-2 sm:p-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
                 aria-label={isMuted ? "Unmute" : "Mute"}
               >
                 {isMuted ? (
-                  <VolumeX className="h-5 w-5" />
+                  <VolumeX className="h-4 w-4 sm:h-5 sm:w-5" />
                 ) : (
-                  <Volume2 className="h-5 w-5" />
+                  <Volume2 className="h-4 w-4 sm:h-5 sm:w-5" />
                 )}
               </button>
               <button
                 onClick={toggleFullscreen}
-                className="p-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg transition-colors"
+                className="p-2 sm:p-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
                 aria-label="Fullscreen"
               >
-                <Maximize className="h-5 w-5" />
+                <Maximize className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
             </motion.div>
           </div>
@@ -263,21 +263,21 @@ export default function VideoHero({
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
-      className="relative w-full h-[600px] md:h-[700px] overflow-hidden rounded-lg shadow-2xl bg-gradient-to-br from-primary to-secondary"
+      className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden rounded-lg shadow-2xl bg-gradient-to-br from-primary to-secondary"
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.6 }}
-        className="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-white z-10"
+        className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 lg:p-12 text-white z-10"
       >
         <div className="container mx-auto max-w-4xl">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-bold mb-2 sm:mb-4 leading-tight"
           >
             {title}
           </motion.h1>
@@ -285,7 +285,7 @@ export default function VideoHero({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.6 }}
-            className="text-lg md:text-xl mb-6 max-w-2xl"
+            className="text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl line-clamp-2 sm:line-clamp-none"
           >
             {subtitle}
           </motion.p>

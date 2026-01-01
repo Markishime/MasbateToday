@@ -58,7 +58,7 @@ export default function ContactPage() {
           </motion.div>
         </SectionAnimation>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         {/* Contact Info */}
         <div className="space-y-6">
           <div>
@@ -179,7 +179,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center space-x-2 bg-primary text-white py-2 rounded-md hover:bg-primary-dark transition-colors disabled:opacity-50"
+                className="w-full flex items-center justify-center space-x-2 bg-primary text-white py-3 sm:py-2 rounded-md hover:bg-primary-dark transition-colors disabled:opacity-50 min-h-[44px] touch-manipulation text-sm sm:text-base"
               >
                 <Send className="h-4 w-4" />
                 <span>{loading ? "Sending..." : "Send Message"}</span>
