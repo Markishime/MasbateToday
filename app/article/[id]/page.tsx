@@ -1,0 +1,201 @@
+import { getArticle, getArticles, incrementViews } from "@/lib/firebase/articles";
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import { Calendar, Clock, Eye, Share2, Facebook, Twitter, MessageCircle } from "lucide-react";
+import { formatDate, shareOnFacebook, shareOnTwitter, shareOnWhatsApp } from "@/lib/utils";
+import ArticleContent from "@/components/ArticleContent";
+import RelatedArticles from "@/components/RelatedArticles";
+import ReadingProgress from "@/components/ReadingProgress";
+import SocialShare from "@/components/SocialShare";
+import Poll from "@/components/Poll";
+import PageTransition from "@/components/PageTransition";
+import SectionAnimation from "@/components/SectionAnimation";
+import { getPollByArticle } from "@/lib/firebase/polls";
+import { motion } from "framer-motion";
+
+export default async function ArticlePage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const article = await getArticle(params.id);
+
+  if (!article || !article.published) {
+    notFound();
+  }
+
+  // Increment views (async, don't wait)
+  incrementViews(params.id).catch(console.error);
+
+  // Get related articles
+  const { articles: allArticles } = await getArticles(article.category, undefined, 20);
+  const relatedArticles = allArticles
+    .filter((a) => a.id !== article.id)
+    .slice(0, 4);
+
+  // Get poll if exists (client-side only)
+  let poll = null;
+  try {
+    poll = await getPollByArticle(params.id);
+  } catch (error) {
+    // Poll loading is optional, continue if it fails
+  }
+
+  return (
+    <PageTransition>
+      <ReadingProgress />
+      <article className="container mx-auto px-4 py-8 max-w-4xl">
+        {/* Header */}
+        <SectionAnimation delay={0}>
+          <motion.header
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-8"
+          >
+          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-4">
+            <span
+              className={`px-3 py-1 rounded-full ${
+                article.category === "masbate"
+                  ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                  : article.category === "national"
+                  ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                  : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
+              }`}
+            >
+              {article.category.charAt(0).toUpperCase() + article.category.slice(1)}
+            </span>
+            {article.sponsored && (
+              <span className="px-3 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 rounded-full">
+                Sponsored
+              </span>
+            )}
+            {article.premium && (
+              <span className="px-3 py-1 bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 rounded-full">
+                Premium
+              </span>
+            )}
+          </div>
+
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            {article.title}
+          </h1>
+
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">
+            {article.excerpt}
+          </p>
+
+          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+            <div className="flex items-center space-x-1">
+              <Calendar className="h-4 w-4" />
+              <span>{formatDate(article.publishedAt || article.createdAt)}</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <Clock className="h-4 w-4" />
+              <span>{article.readingTime} min read</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <Eye className="h-4 w-4" />
+              <span>{article.views} views</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <span>By {article.author}</span>
+            </div>
+          </div>
+        </motion.header>
+
+        {/* Featured Image */}
+        {article.featuredImage && (
+          <SectionAnimation delay={0.2}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              className="relative w-full h-96 md:h-[500px] mb-8 rounded-lg overflow-hidden"
+            >
+            <Image
+              src={article.featuredImage}
+              alt={article.title}
+              fill
+              className="object-cover"
+              priority
+                sizes="100vw"
+              />
+            </motion.div>
+          </SectionAnimation>
+        )}
+
+        {/* Video Embed */}
+        {article.videoEmbed && (
+          <SectionAnimation delay={0.3}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-8 aspect-video rounded-lg overflow-hidden"
+            >
+            <iframe
+              src={article.videoEmbed}
+              title={article.title}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </motion.div>
+          </SectionAnimation>
+        )}
+
+        {/* Article Content */}
+        <SectionAnimation delay={0.4}>
+          <ArticleContent content={article.content} />
+        </SectionAnimation>
+
+        {/* Tags */}
+        {article.tags.length > 0 && (
+          <SectionAnimation delay={0.5}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="mt-8 pt-8 border-t"
+            >
+            <h3 className="text-sm font-semibold mb-3">Tags:</h3>
+            <div className="flex flex-wrap gap-2">
+              {article.tags.map((tag) => (
+                <a
+                  key={tag}
+                  href={`/search?q=${encodeURIComponent(tag)}`}
+                  className="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm hover:bg-primary hover:text-white transition-colors"
+                >
+                  #{tag}
+                </a>
+              ))}
+            </motion.div>
+          </motion.div>
+          </SectionAnimation>
+        )}
+
+        {/* Poll */}
+        {poll && (
+          <SectionAnimation delay={0.6}>
+            <Poll pollId={poll.id} articleId={article.id} />
+          </SectionAnimation>
+        )}
+
+        {/* Social Share */}
+        <SectionAnimation delay={0.7}>
+          <SocialShare article={article} />
+        </SectionAnimation>
+
+        {/* Related Articles */}
+        {relatedArticles.length > 0 && (
+          <SectionAnimation delay={0.8}>
+            <RelatedArticles articles={relatedArticles} />
+          </SectionAnimation>
+        )}
+      </article>
+    </PageTransition>
+  );
+}
+

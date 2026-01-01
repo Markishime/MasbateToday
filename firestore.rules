@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Admins collection - only admins can read/write
+    match /admins/{adminId} {
+      allow read, write: if request.auth != null && 
+        request.auth.token.admin == true;
+    }
+
+    // Articles collection
+    match /articles/{articleId} {
+      // Anyone can read published articles
+      allow read: if resource.data.published == true;
+      
+      // Only admins can create, update, or delete
+      allow create, update, delete: if request.auth != null && 
+        request.auth.token.admin == true;
+    }
+
+    // Newsletter subscribers
+    match /newsletter/{subscriberId} {
+      // Anyone can create (subscribe)
+      allow create: if request.resource.data.email is string;
+      
+      // Only admins can read
+      allow read: if request.auth != null && 
+        request.auth.token.admin == true;
+    }
+
+    // Contact submissions
+    match /contacts/{contactId} {
+      // Anyone can create (submit contact form)
+      allow create: if request.resource.data.email is string && 
+        request.resource.data.message is string;
+      
+      // Only admins can read
+      allow read: if request.auth != null && 
+        request.auth.token.admin == true;
+    }
+
+    // Polls - anyone can read, no one can write (admin-only via Cloud Functions)
+    match /polls/{pollId} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}
+
