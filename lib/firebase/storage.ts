@@ -12,6 +12,9 @@ export const uploadImage = async (file: File, path: string): Promise<string> => 
 };
 
 export const uploadVideo = async (file: File, path: string): Promise<string> => {
+  if (!storage) {
+    throw new Error("Firebase Storage is not configured");
+  }
   const storageRef = ref(storage, `videos/${path}/${Date.now()}_${file.name}`);
   const snapshot = await uploadBytes(storageRef, file);
   const downloadURL = await getDownloadURL(snapshot.ref);
@@ -20,6 +23,10 @@ export const uploadVideo = async (file: File, path: string): Promise<string> => 
 
 export const deleteFile = async (url: string): Promise<void> => {
   try {
+    if (!storage) {
+      console.warn("Firebase Storage is not configured. Cannot delete file.");
+      return;
+    }
     const fileRef = ref(storage, url);
     await deleteObject(fileRef);
   } catch (error) {
