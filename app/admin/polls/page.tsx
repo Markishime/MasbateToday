@@ -27,6 +27,10 @@ export default function PollsPage() {
 
   const loadPolls = async () => {
     try {
+      if (!db) {
+        console.warn("Firebase is not configured. Polls data unavailable.");
+        return;
+      }
       const q = query(collection(db, "polls"), orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(q);
       const pollsData = querySnapshot.docs.map((doc) => {

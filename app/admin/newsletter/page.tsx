@@ -26,6 +26,10 @@ export default function NewsletterPage() {
 
   const loadSubscribers = async () => {
     try {
+      if (!db) {
+        console.warn("Firebase is not configured. Newsletter data unavailable.");
+        return;
+      }
       const q = query(collection(db, "newsletter"), orderBy("subscribedAt", "desc"));
       const querySnapshot = await getDocs(q);
       const subscribersData = querySnapshot.docs.map((doc) => {

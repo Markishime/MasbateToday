@@ -32,6 +32,13 @@ export default function AnalyticsPage() {
 
   const loadAnalytics = async () => {
     try {
+      // Check if Firebase is configured
+      if (!db) {
+        console.warn("Firebase is not configured. Analytics data unavailable.");
+        setLoading(false);
+        return;
+      }
+
       // Get all articles
       const articlesQuery = query(collection(db, "articles"));
       const articlesSnapshot = await getDocs(articlesQuery);
@@ -142,7 +149,7 @@ export default function AnalyticsPage() {
           <div className="space-y-4">
             {trendingArticles.map((article, index) => (
               <div
-                key={article.id}
+                key={`${article.id}-${index}`}
                 className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 <div className="flex items-center space-x-4">

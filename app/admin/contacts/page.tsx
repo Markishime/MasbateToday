@@ -26,6 +26,10 @@ export default function ContactsPage() {
 
   const loadContacts = async () => {
     try {
+      if (!db) {
+        console.warn("Firebase is not configured. Contacts data unavailable.");
+        return;
+      }
       const q = query(collection(db, "contacts"), orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(q);
       const contactsData = querySnapshot.docs.map((doc) => {
