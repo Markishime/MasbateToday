@@ -25,6 +25,11 @@ export default function ContactPage() {
   const onSubmit = async (data: ContactFormData) => {
     setLoading(true);
     try {
+      if (!db) {
+        console.warn("Firebase is not configured. Cannot submit contact form.");
+        alert("Contact form is currently unavailable. Please try again later.");
+        return;
+      }
       await addDoc(collection(db, "contacts"), {
         ...data,
         createdAt: new Date(),
