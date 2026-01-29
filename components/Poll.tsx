@@ -25,6 +25,10 @@ export default function Poll({ pollId, articleId }: PollProps) {
 
   const loadPoll = async () => {
     try {
+      if (!db) {
+        console.warn("Firebase is not configured. Cannot load poll.");
+        return;
+      }
       const pollDoc = await getDoc(doc(db, "polls", pollId));
       if (pollDoc.exists()) {
         const data = pollDoc.data();
@@ -57,6 +61,12 @@ export default function Poll({ pollId, articleId }: PollProps) {
     try {
       const option = poll.options.find((opt) => opt.id === optionId);
       if (!option) return;
+
+      if (!db) {
+        console.warn("Firebase is not configured. Cannot vote.");
+        alert("Voting is currently unavailable. Please try again later.");
+        return;
+      }
 
       await updateDoc(doc(db, "polls", pollId), {
         [`options.${poll.options.findIndex((o) => o.id === optionId)}.votes`]: increment(1),

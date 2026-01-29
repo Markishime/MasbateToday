@@ -15,6 +15,11 @@ export default function NewsletterSignup() {
     setLoading(true);
 
     try {
+      if (!db) {
+        console.warn("Firebase is not configured. Cannot subscribe to newsletter.");
+        alert("Newsletter subscription is currently unavailable. Please try again later.");
+        return;
+      }
       await addDoc(collection(db, "newsletter"), {
         email,
         subscribedAt: new Date(),
