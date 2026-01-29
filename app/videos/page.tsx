@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInfiniteArticles } from "@/lib/hooks/useInfiniteArticles";
 import VideoCard from "@/components/VideoCard";
@@ -11,11 +11,16 @@ import SectionAnimation from "@/components/SectionAnimation";
 
 export default function VideosPage() {
   const { articles, loadMore, hasMore, loading, reset } = useInfiniteArticles("video");
+  const initializedRef = useRef(false);
 
   useEffect(() => {
-    reset();
-    loadMore();
-  }, [reset, loadMore]);
+    if (!initializedRef.current) {
+      initializedRef.current = true;
+      reset();
+      loadMore();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },

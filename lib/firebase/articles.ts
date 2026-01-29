@@ -17,7 +17,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./config";
 import { Article, ArticleCategory } from "@/types";
-import { staticMasbateArticles, staticNationalArticles, staticBlogArticles } from "@/lib/staticData";
+import { staticMasbateArticles, staticNationalArticles, staticBlogArticles, staticVideoArticles } from "@/lib/staticData";
 
 // Helper to get articles collection safely
 const getArticlesCollection = () => {
@@ -54,6 +54,7 @@ export const getArticle = async (id: string): Promise<Article | null> => {
       ...staticMasbateArticles,
       ...staticNationalArticles,
       ...staticBlogArticles,
+      ...staticVideoArticles,
     ];
     const staticArticle = allStaticArticles.find(a => a.id === id);
     if (staticArticle) {
@@ -95,6 +96,7 @@ export const getArticle = async (id: string): Promise<Article | null> => {
       ...staticMasbateArticles,
       ...staticNationalArticles,
       ...staticBlogArticles,
+      ...staticVideoArticles,
     ];
     const staticArticle = allStaticArticles.find(a => a.id === id);
     if (staticArticle) {
@@ -120,11 +122,14 @@ export const getArticles = async (
       staticArticles = staticNationalArticles;
     } else if (category === "blog") {
       staticArticles = staticBlogArticles;
+    } else if (category === "video") {
+      staticArticles = staticVideoArticles;
     } else {
       staticArticles = [
         ...staticMasbateArticles,
         ...staticNationalArticles,
         ...staticBlogArticles,
+        ...staticVideoArticles,
       ];
     }
 
@@ -216,11 +221,14 @@ export const getArticles = async (
       staticArticles = staticNationalArticles;
     } else if (category === "blog") {
       staticArticles = staticBlogArticles;
+    } else if (category === "video") {
+      staticArticles = staticVideoArticles;
     } else {
       staticArticles = [
         ...staticMasbateArticles,
         ...staticNationalArticles,
         ...staticBlogArticles,
+        ...staticVideoArticles,
       ];
     }
 
@@ -552,11 +560,14 @@ export const getArticlesByDateRange = async (
       staticArticles = staticNationalArticles;
     } else if (category === "blog") {
       staticArticles = staticBlogArticles;
+    } else if (category === "video") {
+      staticArticles = staticVideoArticles;
     } else {
       staticArticles = [
         ...staticMasbateArticles,
         ...staticNationalArticles,
         ...staticBlogArticles,
+        ...staticVideoArticles,
       ];
     }
 
@@ -601,11 +612,14 @@ export const getArticlesByDateRange = async (
       staticArticles = staticNationalArticles;
     } else if (category === "blog") {
       staticArticles = staticBlogArticles;
+    } else if (category === "video") {
+      staticArticles = staticVideoArticles;
     } else {
       staticArticles = [
         ...staticMasbateArticles,
         ...staticNationalArticles,
         ...staticBlogArticles,
+        ...staticVideoArticles,
       ];
     }
 
