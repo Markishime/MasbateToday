@@ -50,6 +50,10 @@ export default function ContactsPage() {
 
   const markAsRead = async (id: string) => {
     try {
+      if (!db) {
+        console.warn("Firebase is not configured. Cannot mark as read.");
+        return;
+      }
       await updateDoc(doc(db, "contacts", id), { read: true });
       setContacts(contacts.map((c) => (c.id === id ? { ...c, read: true } : c)));
     } catch (error) {
