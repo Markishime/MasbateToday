@@ -17,7 +17,7 @@ export default function MasbatePage() {
   useEffect(() => {
     reset();
     loadMore();
-  }, []);
+  }, [reset, loadMore]);
 
   const containerVariants = {
     hidden: { opacity: 0 },

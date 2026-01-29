@@ -15,7 +15,7 @@ export default function VideosPage() {
   useEffect(() => {
     reset();
     loadMore();
-  }, []);
+  }, [reset, loadMore]);
 
   const containerVariants = {
     hidden: { opacity: 0 },

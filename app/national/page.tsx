@@ -17,7 +17,7 @@ export default function NationalPage() {
   useEffect(() => {
     reset();
     loadMore();
-  }, []);
+  }, [reset, loadMore]);
 
   const containerVariants = {
     hidden: { opacity: 0 },

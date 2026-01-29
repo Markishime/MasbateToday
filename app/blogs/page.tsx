@@ -17,7 +17,7 @@ export default function BlogsPage() {
   useEffect(() => {
     reset();
     loadMore();
-  }, []);
+  }, [reset, loadMore]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
