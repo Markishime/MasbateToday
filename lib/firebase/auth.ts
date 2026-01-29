@@ -18,10 +18,17 @@ export const signInAdmin = async (email: string, password: string): Promise<User
     throw new Error("Unauthorized: Admin access only");
   }
 
+  if (!auth) {
+    throw new Error("Firebase Auth is not configured");
+  }
+
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
   const user = userCredential.user;
 
   // Verify admin role in Firestore
+  if (!db) {
+    throw new Error("Firebase Firestore is not configured");
+  }
   const adminDoc = await getDoc(doc(db, "admins", user.uid));
   if (!adminDoc.exists()) {
     await signOut(auth);
@@ -32,6 +39,10 @@ export const signInAdmin = async (email: string, password: string): Promise<User
 };
 
 export const signInWithGoogle = async (): Promise<User> => {
+  if (!auth) {
+    throw new Error("Firebase Auth is not configured");
+  }
+
   const provider = new GoogleAuthProvider();
   const userCredential = await signInWithPopup(auth, provider);
   const user = userCredential.user;
@@ -42,6 +53,9 @@ export const signInWithGoogle = async (): Promise<User> => {
     throw new Error("Unauthorized: Admin access only");
   }
 
+  if (!db) {
+    throw new Error("Firebase Firestore is not configured");
+  }
   const adminDoc = await getDoc(doc(db, "admins", user.uid));
   if (!adminDoc.exists()) {
     await signOut(auth);
@@ -52,11 +66,18 @@ export const signInWithGoogle = async (): Promise<User> => {
 };
 
 export const logout = async (): Promise<void> => {
+  if (!auth) {
+    return;
+  }
   await signOut(auth);
 };
 
 export const getCurrentUser = (): Promise<User | null> => {
   return new Promise((resolve) => {
+    if (!auth) {
+      resolve(null);
+      return;
+    }
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       unsubscribe();
       resolve(user);
@@ -67,6 +88,7 @@ export const getCurrentUser = (): Promise<User | null> => {
 export const isAdmin = async (user: User | null): Promise<boolean> => {
   if (!user) return false;
   if (user.email !== ADMIN_EMAIL) return false;
+  if (!db) return false;
 
   const adminDoc = await getDoc(doc(db, "admins", user.uid));
   return adminDoc.exists();
