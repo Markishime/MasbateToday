@@ -1,12 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      "firebasestorage.googleapis.com",
-      "i.ytimg.com",
-      "img.youtube.com",
-      "lh3.googleusercontent.com",
-    ],
     remotePatterns: [
       {
         protocol: "https",
@@ -20,10 +14,17 @@ const nextConfig = {
         protocol: "https",
         hostname: "**.ytimg.com",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
     ],
   },
   reactStrictMode: true,
-  swcMinify: true,
 };
 
 module.exports = nextConfig;

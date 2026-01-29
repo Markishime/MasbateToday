@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { searchArticles } from "@/lib/firebase/articles";
 import { Article, ArticleCategory } from "@/types";
@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import SectionAnimation from "@/components/SectionAnimation";
 
-export default function SearchPage() {
+function SearchPageContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const [articles, setArticles] = useState<Article[]>([]);
@@ -102,6 +102,7 @@ export default function SearchPage() {
               type="button"
               onClick={() => setShowFilters(!showFilters)}
               className="px-4 py-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              aria-label={showFilters ? "Hide filters" : "Show filters"}
             >
               <Filter className="h-5 w-5" />
             </button>
@@ -114,6 +115,7 @@ export default function SearchPage() {
                 <button
                   onClick={() => setShowFilters(false)}
                   className="text-gray-400 hover:text-gray-600"
+                  aria-label="Close filters"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -139,7 +141,8 @@ export default function SearchPage() {
             </div>
           )}
         </div>
-      </div>
+          </motion.div>
+        </SectionAnimation>
 
       {loading ? (
         <div className="text-center py-12">
@@ -180,7 +183,22 @@ export default function SearchPage() {
           </p>
         </div>
       )}
-    </div>
+      </div>
+    </PageTransition>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center py-12">
+          <p className="text-gray-600 dark:text-gray-400">Loading...</p>
+        </div>
+      </div>
+    }>
+      <SearchPageContent />
+    </Suspense>
   );
 }
 

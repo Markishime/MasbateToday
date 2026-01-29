@@ -8,10 +8,10 @@ import RelatedArticles from "@/components/RelatedArticles";
 import ReadingProgress from "@/components/ReadingProgress";
 import SocialShare from "@/components/SocialShare";
 import Poll from "@/components/Poll";
-import PageTransition from "@/components/PageTransition";
-import SectionAnimation from "@/components/SectionAnimation";
 import { getPollByArticle } from "@/lib/firebase/polls";
-import { motion } from "framer-motion";
+
+// Force dynamic rendering to avoid Firebase calls during build
+export const dynamic = 'force-dynamic';
 
 export default async function ArticlePage({
   params,
@@ -42,17 +42,11 @@ export default async function ArticlePage({
   }
 
   return (
-    <PageTransition>
+    <>
       <ReadingProgress />
-      <article className="container mx-auto px-4 py-8 max-w-4xl">
+      <article className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-4xl">
         {/* Header */}
-        <SectionAnimation delay={0}>
-          <motion.header
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
+        <header className="mb-8">
           <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-4">
             <span
               className={`px-3 py-1 rounded-full ${
@@ -102,17 +96,11 @@ export default async function ArticlePage({
               <span>By {article.author}</span>
             </div>
           </div>
-        </motion.header>
+        </header>
 
         {/* Featured Image */}
         {article.featuredImage && (
-          <SectionAnimation delay={0.2}>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6 }}
-              className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[500px] mb-6 sm:mb-8 rounded-lg overflow-hidden"
-            >
+          <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[500px] mb-6 sm:mb-8 rounded-lg overflow-hidden">
             <Image
               src={article.featuredImage}
               alt={article.title}
@@ -121,19 +109,12 @@ export default async function ArticlePage({
               priority
                 sizes="100vw"
               />
-            </motion.div>
-          </SectionAnimation>
+          </div>
         )}
 
         {/* Video Embed */}
         {article.videoEmbed && (
-          <SectionAnimation delay={0.3}>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mb-8 aspect-video rounded-lg overflow-hidden"
-            >
+          <div className="mb-8 aspect-video rounded-lg overflow-hidden">
             <iframe
               src={article.videoEmbed}
               title={article.title}
@@ -141,25 +122,15 @@ export default async function ArticlePage({
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
-          </motion.div>
-          </SectionAnimation>
+          </div>
         )}
 
         {/* Article Content */}
-        <SectionAnimation delay={0.4}>
-          <ArticleContent content={article.content} />
-        </SectionAnimation>
+        <ArticleContent content={article.content} />
 
         {/* Tags */}
         {article.tags.length > 0 && (
-          <SectionAnimation delay={0.5}>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="mt-8 pt-8 border-t"
-            >
+          <div className="mt-8 pt-8 border-t">
             <h3 className="text-sm font-semibold mb-3">Tags:</h3>
             <div className="flex flex-wrap gap-2">
               {article.tags.map((tag) => (
@@ -171,31 +142,22 @@ export default async function ArticlePage({
                   #{tag}
                 </a>
               ))}
-            </motion.div>
-          </motion.div>
-          </SectionAnimation>
+            </div>
+          </div>
         )}
 
         {/* Poll */}
-        {poll && (
-          <SectionAnimation delay={0.6}>
-            <Poll pollId={poll.id} articleId={article.id} />
-          </SectionAnimation>
-        )}
+        {poll && <Poll pollId={poll.id} articleId={article.id} />}
 
         {/* Social Share */}
-        <SectionAnimation delay={0.7}>
-          <SocialShare article={article} />
-        </SectionAnimation>
+        <SocialShare article={article} />
 
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
-          <SectionAnimation delay={0.8}>
-            <RelatedArticles articles={relatedArticles} />
-          </SectionAnimation>
+          <RelatedArticles articles={relatedArticles} />
         )}
       </article>
-    </PageTransition>
+    </>
   );
 }
 

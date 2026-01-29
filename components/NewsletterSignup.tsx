@@ -32,33 +32,29 @@ export default function NewsletterSignup() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-primary to-primary-dark rounded-lg p-4 sm:p-6 shadow-md text-white">
-      <div className="flex items-center space-x-2 mb-3 sm:mb-4">
-        <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
-        <h3 className="font-semibold text-base sm:text-lg">Newsletter</h3>
-      </div>
-      <p className="text-xs sm:text-sm mb-3 sm:mb-4 opacity-90">
-        Get daily/weekly news digests delivered to your inbox.
-      </p>
+    <div className="w-full max-w-md mx-auto">
       {submitted ? (
-        <div className="flex items-center space-x-2 text-sm">
-          <Check className="h-4 w-4" />
+        <div className="flex items-center justify-center space-x-2 text-white text-lg font-semibold bg-green-500 rounded-lg p-4">
+          <Check className="h-5 w-5" />
           <span>Thank you for subscribing!</span>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            required
-            className="w-full px-4 py-2 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
-          />
+        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+          <div className="flex-1 relative">
+            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              required
+              className="w-full pl-10 pr-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#FCD116] shadow-lg"
+            />
+          </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-white text-primary font-semibold py-2.5 sm:py-2 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 text-sm sm:text-base min-h-[44px] touch-manipulation"
+            className="px-6 sm:px-8 py-3 bg-[#FCD116] text-[#0038A8] font-bold rounded-lg hover:bg-[#FFD700] transition-colors disabled:opacity-50 shadow-lg hover:shadow-xl min-h-[44px] touch-manipulation"
           >
             {loading ? "Subscribing..." : "Subscribe"}
           </button>

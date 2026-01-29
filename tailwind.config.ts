@@ -6,7 +6,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: "class",
+  darkMode: false,
   theme: {
     screens: {
       'xs': '475px',
@@ -17,7 +17,6 @@ const config: Config = {
       '2xl': '1536px',
       '3xl': '1920px',
     },
-  theme: {
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -25,18 +24,39 @@ const config: Config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        // Newspaper theme colors - classic black/white/gray palette
+        newspaper: {
+          black: "#1a1a1a",
+          darkGray: "#4a4a4a",
+          gray: "#6b6b6b",
+          lightGray: "#9b9b9b",
+          offWhite: "#f5f0e8", // Classic newspaper cream/sepia
+          white: "#ffffff",
+          cream: "#f5f0e8", // Classic newspaper cream
+          sepia: "#d4c5b0", // Light brown sepia
+          tan: "#e8ddd4", // Light tan
+          brown: "#8b6f47", // Medium brown
+          darkBrown: "#5c4a37", // Dark brown
+          red: "#b22222", // Deep red for breaking news
+        },
         primary: {
-          DEFAULT: "#1e40af", // Blue for Masbate local news
-          dark: "#1e3a8a",
-          light: "#3b82f6",
+          DEFAULT: "#1a1a1a", // Newspaper black
+          dark: "#000000",
+          light: "#4a4a4a",
         },
         secondary: {
-          DEFAULT: "#059669", // Green for national news
-          dark: "#047857",
-          light: "#10b981",
+          DEFAULT: "#b22222", // Newspaper red for accents
+          dark: "#8b0000",
+          light: "#dc143c",
+        },
+        philippine: {
+          red: "#CE1126",
+          blue: "#0038A8",
+          yellow: "#FCD116",
+          white: "#FFFFFF",
         },
         accent: {
-          DEFAULT: "#dc2626", // Red for breaking news
+          DEFAULT: "#b22222", // Newspaper red for breaking news
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -62,6 +82,26 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        serif: [
+          "Times New Roman",
+          "Times",
+          "serif"
+        ],
+        display: [
+          "Playfair Display",
+          "Times New Roman",
+          "serif"
+        ],
+        body: [
+          "Georgia",
+          "Times New Roman",
+          "serif"
+        ],
+        headline: [
+          "Old Standard TT",
+          "Times New Roman",
+          "serif"
+        ],
       },
     },
   },

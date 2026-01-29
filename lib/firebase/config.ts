@@ -13,16 +13,42 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase
-let app: FirebaseApp;
-if (!getApps().length) {
-  app = initializeApp(firebaseConfig);
+// Check if Firebase config is valid
+const isFirebaseConfigured = () => {
+  return !!(
+    firebaseConfig.apiKey &&
+    firebaseConfig.projectId &&
+    firebaseConfig.appId
+  );
+};
+
+// Initialize Firebase only if config is valid
+let app: FirebaseApp | null = null;
+let db: Firestore | null = null;
+let auth: Auth | null = null;
+let storage: FirebaseStorage | null = null;
+
+if (isFirebaseConfigured()) {
+  try {
+    if (!getApps().length) {
+      app = initializeApp(firebaseConfig);
+    } else {
+      app = getApps()[0];
+    }
+    
+    if (app) {
+      auth = getAuth(app);
+      db = getFirestore(app);
+      storage = getStorage(app);
+    }
+  } catch (error) {
+    console.error("Firebase initialization error:", error);
+    // Continue with null values - functions will handle gracefully
+  }
 } else {
-  app = getApps()[0];
+  console.warn("Firebase configuration is incomplete. Some features may not work.");
 }
 
-export const auth: Auth = getAuth(app);
-export const db: Firestore = getFirestore(app);
-export const storage: FirebaseStorage = getStorage(app);
+export { auth, db, storage };
 export default app;
 

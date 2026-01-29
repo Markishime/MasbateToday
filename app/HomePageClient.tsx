@@ -39,126 +39,128 @@ export default function HomePageClient({
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-      {/* Main Content */}
-      <div className="lg:col-span-3">
-        {/* Top Stories in Masbate */}
-        <SectionAnimation delay={0.3}>
-          <section className="mb-12">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center justify-between mb-6"
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-primary">
-                Top Stories in Masbate
-              </h2>
-              <motion.a
-                href="/masbate"
-                whileHover={{ x: 5 }}
-                className="text-primary hover:underline text-sm font-semibold"
+    <div className="max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
+        {/* Main Content */}
+        <div className="lg:col-span-3">
+          {/* Top Stories in Masbate */}
+          <SectionAnimation delay={0.3}>
+            <section className="mb-12">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="flex items-center justify-between mb-6"
               >
-                View All →
-              </motion.a>
-            </motion.div>
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
-            >
-              {masbateArticles.map((article, index) => (
-                <motion.div key={article.id} variants={itemVariants}>
-                  <ArticleCard article={article} featured={index === 0} />
-                </motion.div>
-              ))}
-            </motion.div>
-          </section>
-        </SectionAnimation>
-
-        {/* National Philippines News */}
-        <SectionAnimation delay={0.4}>
-          <section className="mb-12">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center justify-between mb-6"
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-secondary">
-                National Philippines News
-              </h2>
-              <motion.a
-                href="/national"
-                whileHover={{ x: 5 }}
-                className="text-secondary hover:underline text-sm font-semibold"
+                <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#0038A8] to-[#1E4FC7] bg-clip-text text-transparent">
+                  Top Stories in Masbate
+                </h2>
+                <motion.a
+                  href="/masbate"
+                  whileHover={{ x: 5 }}
+                  className="text-primary hover:underline text-sm font-semibold"
+                >
+                  View All →
+                </motion.a>
+              </motion.div>
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"
               >
-                View All →
-              </motion.a>
-            </motion.div>
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
-            >
-              {nationalArticles.map((article) => (
-                <motion.div key={article.id} variants={itemVariants}>
-                  <ArticleCard article={article} />
-                </motion.div>
-              ))}
-            </motion.div>
-          </section>
-        </SectionAnimation>
+                {masbateArticles.map((article, index) => (
+                  <motion.div key={article.id} variants={itemVariants}>
+                    <ArticleCard article={article} featured={index === 0} />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </section>
+          </SectionAnimation>
 
-        {/* Blogs & Opinions */}
-        <SectionAnimation delay={0.5}>
-          <section className="mb-12">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center justify-between mb-6"
-            >
-              <h2 className="text-2xl md:text-3xl font-bold">
-                Blogs & Opinions
-              </h2>
-              <motion.a
-                href="/blogs"
-                whileHover={{ x: 5 }}
-                className="text-primary hover:underline text-sm font-semibold"
+          {/* National Philippines News */}
+          <SectionAnimation delay={0.4}>
+            <section className="mb-12">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="flex items-center justify-between mb-6"
               >
-                View All →
-              </motion.a>
-            </motion.div>
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
-            >
-              {blogArticles.map((article) => (
-                <motion.div key={article.id} variants={itemVariants}>
-                  <ArticleCard article={article} />
-                </motion.div>
-              ))}
-            </motion.div>
-          </section>
-        </SectionAnimation>
-      </div>
+                <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#CE1126] to-[#E01A2F] bg-clip-text text-transparent">
+                  National Philippines News
+                </h2>
+                <motion.a
+                  href="/national"
+                  whileHover={{ x: 5 }}
+                  className="text-secondary hover:underline text-sm font-semibold"
+                >
+                  View All →
+                </motion.a>
+              </motion.div>
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              >
+                {nationalArticles.map((article) => (
+                  <motion.div key={article.id} variants={itemVariants}>
+                    <ArticleCard article={article} />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </section>
+          </SectionAnimation>
 
-      {/* Sidebar */}
-      <div className="lg:col-span-1">
-        <SectionAnimation delay={0.6}>
-          <Sidebar />
-        </SectionAnimation>
+          {/* Blogs & Opinions */}
+          <SectionAnimation delay={0.5}>
+            <section className="mb-12">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="flex items-center justify-between mb-6"
+              >
+                <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#FCD116] to-[#FFD700] bg-clip-text text-transparent">
+                  Blogs & Opinions
+                </h2>
+                <motion.a
+                  href="/blogs"
+                  whileHover={{ x: 5 }}
+                  className="text-primary hover:underline text-sm font-semibold"
+                >
+                  View All →
+                </motion.a>
+              </motion.div>
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              >
+                {blogArticles.map((article) => (
+                  <motion.div key={article.id} variants={itemVariants}>
+                    <ArticleCard article={article} />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </section>
+          </SectionAnimation>
+        </div>
+
+        {/* Sidebar */}
+        <div className="lg:col-span-1">
+          <SectionAnimation delay={0.6}>
+            <Sidebar />
+          </SectionAnimation>
+        </div>
       </div>
     </div>
   );
