@@ -7,7 +7,7 @@ import PageTransition from "@/components/PageTransition";
 import SectionAnimation from "@/components/SectionAnimation";
 
 export default function SupportPage() {
-  const GCASH_NUMBER = process.env.NEXT_PUBLIC_GCASH_NUMBER || "0963688771";
+  const GCASH_NUMBER = process.env.NEXT_PUBLIC_GCASH_NUMBER || "09260853647";
 
   const cardVariants = {
     hidden: { opacity: 0, y: 30 },
