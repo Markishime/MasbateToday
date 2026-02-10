@@ -16,16 +16,17 @@ export const dynamic = 'force-dynamic';
 export default async function ArticlePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const article = await getArticle(params.id);
+  const { id } = await params;
+  const article = await getArticle(id);
 
   if (!article || !article.published) {
     notFound();
   }
 
   // Increment views (async, don't wait)
-  incrementViews(params.id).catch(console.error);
+  incrementViews(id).catch(console.error);
 
   // Get related articles
   const { articles: allArticles } = await getArticles(article.category, undefined, 20);
@@ -36,7 +37,7 @@ export default async function ArticlePage({
   // Get poll if exists (client-side only)
   let poll = null;
   try {
-    poll = await getPollByArticle(params.id);
+    poll = await getPollByArticle(id);
   } catch (error) {
     // Poll loading is optional, continue if it fails
   }

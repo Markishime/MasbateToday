@@ -13,13 +13,12 @@ interface NewsHeroProps {
 export default function NewsHero({ articles = [] }: NewsHeroProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Fallback images for news theme (AI-generated style placeholders)
+  // Fallback images for news theme (AI-style editorial illustrations)
   const fallbackImages = [
-    "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1920&q=80", // News desk
-    "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=1920&q=80", // Breaking news
-    "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=1920&q=80", // Journalism
-    "https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?w=1920&q=80", // Newsroom
-    "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1920&q=80", // Media
+    "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1920&q=80", // Newspaper front page collage
+    "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1920&q=80", // City skyline and headlines
+    "https://images.unsplash.com/photo-1485115918245-91c9103c87c3?w=1920&q=80", // Journalist at work
+    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80", // Editorial newsroom scene
   ];
 
   // Use articles if available, otherwise use fallback images

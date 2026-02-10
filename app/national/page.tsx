@@ -1,23 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { useInfiniteArticles } from "@/lib/hooks/useInfiniteArticles";
-import ArticleCard from "@/components/ArticleCard";
+import Image from "next/image";
+import { useRealtimeArticles } from "@/lib/hooks/useRealtimeArticles";
 import Sidebar from "@/components/Sidebar";
-import InfiniteScroll from "@/components/InfiniteScroll";
 import PageTransition from "@/components/PageTransition";
 import SectionAnimation from "@/components/SectionAnimation";
 import StaticArticles from "@/components/StaticArticles";
 import { staticNationalArticles } from "@/lib/staticData";
 
 export default function NationalPage() {
-  const { articles, loadMore, hasMore, loading, reset } = useInfiniteArticles("national");
-
-  useEffect(() => {
-    reset();
-    loadMore();
-  }, [reset, loadMore]);
+  const { articles, loading } = useRealtimeArticles("national", { limit: 50 });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -67,9 +60,18 @@ export default function NationalPage() {
                     day: 'numeric'
                   })} • Nationwide Coverage
                 </div>
-                <p className="text-newspaper-darkGray font-serif italic text-lg max-w-2xl mx-auto">
+                <p className="text-newspaper-darkGray font-serif italic text-lg max-w-2xl mx-auto mb-6">
                   Comprehensive national news coverage from across the Philippines, bringing you the stories that matter most
                 </p>
+                <div className="relative w-full h-40 sm:h-56 md:h-64 max-w-3xl mx-auto overflow-hidden rounded-lg border-2" style={{ borderColor: '#8b6f47' }}>
+                  <Image
+                    src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1600&q=80"
+                    alt="AI-style illustration of the Philippines and national headlines"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 60vw"
+                  />
+                </div>
               </motion.div>
             </SectionAnimation>
           </div>
@@ -78,19 +80,15 @@ export default function NationalPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <div className="lg:col-span-3">
-              {articles.length === 0 && !loading ? (
-                <SectionAnimation delay={0.2}>
+              <SectionAnimation delay={0.2}>
+                {loading && articles.length === 0 ? (
+                  <div className="newspaper-border paper-texture bg-white p-12 text-center">
+                    <p className="text-newspaper-darkGray font-serif italic">Loading latest news...</p>
+                  </div>
+                ) : (
                   <StaticArticles articles={articles} staticArticles={staticNationalArticles} />
-                </SectionAnimation>
-              ) : (
-                <InfiniteScroll
-                  onLoadMore={loadMore}
-                  hasMore={hasMore}
-                  loading={loading}
-                >
-                  <StaticArticles articles={articles} staticArticles={staticNationalArticles} />
-                </InfiniteScroll>
-              )}
+                )}
+              </SectionAnimation>
             </div>
 
             <div className="lg:col-span-1 space-y-6">

@@ -46,7 +46,39 @@ const deduplicateArticles = (articles: Article[]): Article[] => {
   });
 };
 
+// Normalize static article objects so detail pages work even without Firestore
+const normalizeStaticArticle = (partial: Partial<Article>): Article => {
+  const now = new Date();
+  return {
+    id: partial.id || "static-article",
+    title: partial.title || "Untitled Article",
+    content: partial.content || partial.excerpt || "",
+    excerpt: partial.excerpt || "",
+    author: partial.author || "Masbate Today Staff",
+    authorId: partial.authorId || "static-author",
+    category: partial.category || "masbate",
+    featuredImage: partial.featuredImage,
+    images: partial.images,
+    videoUrl: partial.videoUrl,
+    videoEmbed: partial.videoEmbed,
+    tags: partial.tags || [],
+    published: partial.published ?? true,
+    featured: partial.featured ?? false,
+    sponsored: partial.sponsored ?? false,
+    premium: partial.premium ?? false,
+    createdAt: partial.createdAt || now,
+    updatedAt: partial.updatedAt || partial.createdAt || now,
+    publishedAt: partial.publishedAt || partial.createdAt || now,
+    views: partial.views ?? 0,
+    readingTime: partial.readingTime ?? 3,
+    relatedArticles: partial.relatedArticles,
+  };
+};
+
 export const getArticle = async (id: string): Promise<Article | null> => {
+  if (id == null || typeof id !== "string" || !id.trim()) {
+    return null;
+  }
   // If Firebase is not configured, try to find in static data
   if (!db || !articlesCollection) {
     // Check static data for matching article
@@ -56,9 +88,9 @@ export const getArticle = async (id: string): Promise<Article | null> => {
       ...staticBlogArticles,
       ...staticVideoArticles,
     ];
-    const staticArticle = allStaticArticles.find(a => a.id === id);
+    const staticArticle = allStaticArticles.find((a) => a.id === id);
     if (staticArticle) {
-      return staticArticle as Article;
+      return normalizeStaticArticle(staticArticle as Article);
     }
     return null;
   }
@@ -73,10 +105,11 @@ export const getArticle = async (id: string): Promise<Article | null> => {
         ...staticMasbateArticles,
         ...staticNationalArticles,
         ...staticBlogArticles,
+        ...staticVideoArticles,
       ];
-      const staticArticle = allStaticArticles.find(a => a.id === id);
+      const staticArticle = allStaticArticles.find((a) => a.id === id);
       if (staticArticle) {
-        return staticArticle as Article;
+        return normalizeStaticArticle(staticArticle as Article);
       }
       return null;
     }
@@ -98,9 +131,9 @@ export const getArticle = async (id: string): Promise<Article | null> => {
       ...staticBlogArticles,
       ...staticVideoArticles,
     ];
-    const staticArticle = allStaticArticles.find(a => a.id === id);
+    const staticArticle = allStaticArticles.find((a) => a.id === id);
     if (staticArticle) {
-      return staticArticle as Article;
+      return normalizeStaticArticle(staticArticle as Article);
     }
     return null;
   }

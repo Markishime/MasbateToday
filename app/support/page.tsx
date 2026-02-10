@@ -1,12 +1,14 @@
 "use client";
 
-import { Heart, CreditCard, Gift } from "lucide-react";
+import { CreditCard } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import SectionAnimation from "@/components/SectionAnimation";
 
 export default function SupportPage() {
+  const GCASH_NUMBER = process.env.NEXT_PUBLIC_GCASH_NUMBER || "0963688771";
+
   const cardVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
@@ -16,6 +18,19 @@ export default function SupportPage() {
         duration: 0.5,
       },
     },
+  };
+
+  const handleGcashClick = async () => {
+    try {
+      if (navigator.clipboard && GCASH_NUMBER) {
+        await navigator.clipboard.writeText(GCASH_NUMBER);
+        alert("GCash number copied. Open your GCash app and paste it to send support.");
+      } else {
+        throw new Error("Clipboard not available");
+      }
+    } catch {
+      alert(`Please send your support via GCash number: ${GCASH_NUMBER}`);
+    }
   };
 
   return (
@@ -50,66 +65,32 @@ export default function SupportPage() {
           viewport={{ once: true }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12"
         >
-          <motion.div variants={cardVariants} className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-md text-center">
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              className="bg-red-100 dark:bg-red-900/30 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4"
-            >
-              <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-red-600 dark:text-red-400" />
-            </motion.div>
-            <h3 className="font-bold text-base sm:text-lg mb-2">One-Time Donation</h3>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
-              Make a one-time contribution to support our work
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full bg-primary text-white py-2.5 sm:py-2 rounded-md hover:bg-primary-dark transition-colors text-sm sm:text-base min-h-[44px] touch-manipulation"
-            >
-              Donate via PayPal
-            </motion.button>
-          </motion.div>
-
-          <motion.div variants={cardVariants} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md text-center">
+          <motion.div
+            variants={cardVariants}
+            className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md text-center col-span-1 sm:col-span-2 lg:col-span-3"
+          >
             <motion.div
               whileHover={{ scale: 1.1, rotate: 5 }}
               className="bg-green-100 dark:bg-green-900/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
             >
               <CreditCard className="h-8 w-8 text-green-600 dark:text-green-400" />
             </motion.div>
-            <h3 className="font-bold text-lg mb-2">GCash</h3>
+            <h3 className="font-bold text-lg mb-2">Donate via GCash</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Send support via GCash (Philippines)
+              Send your support directly through GCash. Your contribution keeps Masbate Today independent and free
+              for everyone.
             </p>
             <div className="bg-gray-100 dark:bg-gray-700 p-3 rounded mb-4">
-              <p className="font-mono text-sm">0963688771</p>
+              <p className="font-mono text-sm">{GCASH_NUMBER}</p>
             </div>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors"
+              type="button"
+              onClick={handleGcashClick}
             >
-              Open GCash
-            </motion.button>
-          </motion.div>
-
-          <motion.div variants={cardVariants} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md text-center">
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              className="bg-purple-100 dark:bg-purple-900/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-            >
-              <Gift className="h-8 w-8 text-purple-600 dark:text-purple-400" />
-            </motion.div>
-            <h3 className="font-bold text-lg mb-2">Patreon</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Become a monthly supporter
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600 transition-colors"
-            >
-              Support on Patreon
+              Copy GCash Number
             </motion.button>
           </motion.div>
         </motion.div>

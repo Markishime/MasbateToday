@@ -25,7 +25,12 @@ interface TouristSpotCardProps {
   index: number;
 }
 
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80";
+
 export default function TouristSpotCard({ spot, onBookNow, index }: TouristSpotCardProps) {
+  const imageSrc = spot.image?.trim() || FALLBACK_IMAGE;
+  const imageAlt = spot.name?.trim() || "Tourist spot in Masbate";
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -37,8 +42,8 @@ export default function TouristSpotCard({ spot, onBookNow, index }: TouristSpotC
       {/* Image */}
       <div className="relative h-48 w-full overflow-hidden">
         <Image
-          src={spot.image}
-          alt={spot.name}
+          src={imageSrc}
+          alt={imageAlt}
           fill
           className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
         />
@@ -90,7 +95,7 @@ export default function TouristSpotCard({ spot, onBookNow, index }: TouristSpotC
         <div className="mb-4">
           <div className="text-xs font-serif font-bold text-newspaper-black uppercase mb-2">Features:</div>
           <div className="flex flex-wrap gap-2">
-            {spot.features.slice(0, 3).map((feature, idx) => (
+            {(spot.features ?? []).slice(0, 3).map((feature, idx) => (
               <span
                 key={idx}
                 className="px-2 py-1 bg-newspaper-black text-white text-xs font-serif uppercase tracking-wide"
@@ -98,9 +103,9 @@ export default function TouristSpotCard({ spot, onBookNow, index }: TouristSpotC
                 {feature}
               </span>
             ))}
-            {spot.features.length > 3 && (
+            {(spot.features ?? []).length > 3 && (
               <span className="px-2 py-1 bg-newspaper-gray text-white text-xs font-serif">
-                +{spot.features.length - 3} more
+                +{(spot.features ?? []).length - 3} more
               </span>
             )}
           </div>

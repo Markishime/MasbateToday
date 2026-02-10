@@ -1,23 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { useInfiniteArticles } from "@/lib/hooks/useInfiniteArticles";
-import ArticleCard from "@/components/ArticleCard";
+import { useRealtimeArticles } from "@/lib/hooks/useRealtimeArticles";
 import Sidebar from "@/components/Sidebar";
-import InfiniteScroll from "@/components/InfiniteScroll";
 import PageTransition from "@/components/PageTransition";
 import SectionAnimation from "@/components/SectionAnimation";
 import StaticArticles from "@/components/StaticArticles";
 import { staticBlogArticles } from "@/lib/staticData";
 
 export default function BlogsPage() {
-  const { articles, loadMore, hasMore, loading, reset } = useInfiniteArticles("blog");
-
-  useEffect(() => {
-    reset();
-    loadMore();
-  }, [reset, loadMore]);
+  const { articles, loading } = useRealtimeArticles("blog", { limit: 50 });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -78,19 +70,15 @@ export default function BlogsPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <div className="lg:col-span-3">
-              {articles.length === 0 && !loading ? (
-                <SectionAnimation delay={0.2}>
+              <SectionAnimation delay={0.2}>
+                {loading && articles.length === 0 ? (
+                  <div className="newspaper-border paper-texture bg-white p-12 text-center">
+                    <p className="text-newspaper-darkGray font-serif italic">Loading latest articles...</p>
+                  </div>
+                ) : (
                   <StaticArticles articles={articles} staticArticles={staticBlogArticles} />
-                </SectionAnimation>
-              ) : (
-                <InfiniteScroll
-                  onLoadMore={loadMore}
-                  hasMore={hasMore}
-                  loading={loading}
-                >
-                  <StaticArticles articles={articles} staticArticles={staticBlogArticles} />
-                </InfiniteScroll>
-              )}
+                )}
+              </SectionAnimation>
             </div>
 
             <div className="lg:col-span-1 space-y-6">

@@ -1,26 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { useInfiniteArticles } from "@/lib/hooks/useInfiniteArticles";
+import { useRealtimeArticles } from "@/lib/hooks/useRealtimeArticles";
 import VideoCard from "@/components/VideoCard";
 import Sidebar from "@/components/Sidebar";
-import InfiniteScroll from "@/components/InfiniteScroll";
 import PageTransition from "@/components/PageTransition";
 import SectionAnimation from "@/components/SectionAnimation";
 
 export default function VideosPage() {
-  const { articles, loadMore, hasMore, loading, reset } = useInfiniteArticles("video");
-  const initializedRef = useRef(false);
-
-  useEffect(() => {
-    if (!initializedRef.current) {
-      initializedRef.current = true;
-      reset();
-      loadMore();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { articles, loading } = useRealtimeArticles("video", { limit: 50 });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -81,8 +69,12 @@ export default function VideosPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <div className="lg:col-span-3">
-              {articles.length === 0 && !loading ? (
-                <SectionAnimation delay={0.2}>
+              <SectionAnimation delay={0.2}>
+                {loading && articles.length === 0 ? (
+                  <div className="newspaper-border paper-texture bg-white p-12 text-center">
+                    <p className="text-newspaper-darkGray font-serif italic">Loading video gallery...</p>
+                  </div>
+                ) : articles.length === 0 ? (
                   <div className="newspaper-border paper-texture bg-white p-12 text-center">
                     <h3 className="font-headline text-newspaper-black text-xl uppercase mb-4">
                       No Videos Available
@@ -91,13 +83,7 @@ export default function VideosPage() {
                       Check back soon for the latest video news and multimedia content
                     </p>
                   </div>
-                </SectionAnimation>
-              ) : (
-                <InfiniteScroll
-                  onLoadMore={loadMore}
-                  hasMore={hasMore}
-                  loading={loading}
-                >
+                ) : (
                   <motion.div
                     variants={containerVariants}
                     initial="hidden"
@@ -106,7 +92,7 @@ export default function VideosPage() {
                   >
                     {articles.map((article, index) => (
                       <motion.div
-                        key={`${article.id || 'video'}-${index}`}
+                        key={`${article.id || "video"}-${index}`}
                         variants={itemVariants}
                         className="newspaper-clip bg-white p-4 mb-6 break-inside-avoid"
                       >
@@ -114,8 +100,8 @@ export default function VideosPage() {
                       </motion.div>
                     ))}
                   </motion.div>
-                </InfiniteScroll>
-              )}
+                )}
+              </SectionAnimation>
             </div>
 
             <div className="lg:col-span-1 space-y-6">

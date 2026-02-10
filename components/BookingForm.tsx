@@ -18,6 +18,9 @@ interface TouristSpot {
   price: string;
   features: string[];
   isBestSpot: boolean;
+  inclusions?: string[];
+  exclusions?: string[];
+  itinerary?: string[];
 }
 
 interface BookingFormProps {
@@ -34,7 +37,7 @@ export default function BookingForm({ spot, onClose, emailTo }: BookingFormProps
     date: "",
     time: "",
     guests: "",
-    message: ""
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -64,15 +67,16 @@ export default function BookingForm({ spot, onClose, emailTo }: BookingFormProps
         }),
       });
 
-      const data = await response.json();
+      const data: { success: boolean; mailtoLink?: string | null; error?: string } = await response.json();
 
       if (data.success) {
-        // Open email client with pre-filled content
-        window.location.href = data.mailtoLink;
-        
-        // Wait a bit for email client to open
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
+        // If backend returned a mailto link, open the user's email client.
+        if (data.mailtoLink) {
+          window.location.href = data.mailtoLink;
+          // Wait a bit for email client to open
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+        }
+
         setIsSubmitted(true);
         setTimeout(() => {
           onClose();
@@ -84,11 +88,11 @@ export default function BookingForm({ spot, onClose, emailTo }: BookingFormProps
             date: "",
             time: "",
             guests: "",
-            message: ""
+            message: "",
           });
         }, 3000);
       } else {
-        throw new Error(data.error || 'Failed to submit booking');
+        throw new Error(data.error || "Failed to submit booking");
       }
     } catch (error) {
       console.error("Error submitting booking:", error);
@@ -167,15 +171,56 @@ export default function BookingForm({ spot, onClose, emailTo }: BookingFormProps
                     <strong>Price:</strong> {spot.price}
                   </div>
                 </div>
-                <div className="border-t-2 border-newspaper-black pt-4">
-                  <div className="text-sm font-serif font-bold text-newspaper-black uppercase mb-2">
-                    Features:
+                <div className="border-t-2 border-newspaper-black pt-4 space-y-4">
+                  <div>
+                    <div className="text-sm font-serif font-bold text-newspaper-black uppercase mb-2">
+                      Highlights / Features:
+                    </div>
+                    <ul className="space-y-1 text-sm font-serif text-newspaper-darkGray">
+                      {spot.features.map((feature, idx) => (
+                        <li key={idx}>• {feature}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="space-y-1 text-sm font-serif text-newspaper-darkGray">
-                    {spot.features.map((feature, idx) => (
-                      <li key={idx}>• {feature}</li>
-                    ))}
-                  </ul>
+
+                  {spot.inclusions && spot.inclusions.length > 0 && (
+                    <div>
+                      <div className="text-sm font-serif font-bold text-newspaper-black uppercase mb-2">
+                        Package Inclusions:
+                      </div>
+                      <ul className="space-y-1 text-sm font-serif text-newspaper-darkGray">
+                        {spot.inclusions.map((item, idx) => (
+                          <li key={idx}>• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {spot.exclusions && spot.exclusions.length > 0 && (
+                    <div>
+                      <div className="text-sm font-serif font-bold text-newspaper-black uppercase mb-2">
+                        Package Exclusions:
+                      </div>
+                      <ul className="space-y-1 text-sm font-serif text-newspaper-darkGray">
+                        {spot.exclusions.map((item, idx) => (
+                          <li key={idx}>• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {spot.itinerary && spot.itinerary.length > 0 && (
+                    <div>
+                      <div className="text-sm font-serif font-bold text-newspaper-black uppercase mb-2">
+                        Sample Itinerary:
+                      </div>
+                      <ul className="space-y-1 text-sm font-serif text-newspaper-darkGray">
+                        {spot.itinerary.map((item, idx) => (
+                          <li key={idx}>• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -238,8 +283,9 @@ export default function BookingForm({ spot, onClose, emailTo }: BookingFormProps
                         value={formData.date}
                         onChange={handleChange}
                         required
-                        min={new Date().toISOString().split('T')[0]}
+                        min={new Date().toISOString().split("T")[0]}
                         className="w-full px-4 py-3 border-2 border-newspaper-black bg-white font-serif text-newspaper-black focus:outline-none focus:ring-2 focus:ring-newspaper-black"
+                        aria-label="Preferred visit date"
                       />
                     </div>
 
@@ -253,6 +299,7 @@ export default function BookingForm({ spot, onClose, emailTo }: BookingFormProps
                         onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border-2 border-newspaper-black bg-white font-serif text-newspaper-black focus:outline-none focus:ring-2 focus:ring-newspaper-black"
+                        aria-label="Preferred visit time"
                       >
                         <option value="">Select time</option>
                         <option value="06:00 AM">06:00 AM</option>
@@ -298,7 +345,7 @@ export default function BookingForm({ spot, onClose, emailTo }: BookingFormProps
                       onChange={handleChange}
                       rows={4}
                       className="w-full px-4 py-3 border-2 border-newspaper-black bg-white font-serif text-newspaper-black focus:outline-none focus:ring-2 focus:ring-newspaper-black"
-                      placeholder="Any special requests or questions..."
+                      placeholder="Any special requests, budget, or questions..."
                     />
                   </div>
 

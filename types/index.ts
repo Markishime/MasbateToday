@@ -80,3 +80,46 @@ export interface AdminUser {
 export type ArticleCategory = "masbate" | "national" | "blog" | "video";
 export type Language = "en" | "tl";
 
+/** Tour destination / tourist spot (Firestore: tourDestinations) */
+export interface TourDestination {
+  id: string;
+  name: string;
+  location: string;
+  description: string;
+  image: string;
+  rating: number;
+  category: string;
+  bestTime: string;
+  duration: string;
+  price: string;
+  features: string[];
+  isBestSpot: boolean;
+  /** Static package details shown on the Tourism & booking pages */
+  inclusions?: string[];
+  exclusions?: string[];
+  itinerary?: string[];
+  updatedAt: Date;
+  createdAt: Date;
+}
+
+/** Daily / live update (Firestore: dailyUpdates) */
+export interface DailyUpdate {
+  id: string;
+  title: string;
+  body: string;
+  type: "news" | "weather" | "tour" | "general";
+  priority: number;
+  active: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  expiresAt?: Date;
+}
+
+/** Weather snapshot (from API, can be stored in Firestore for caching) */
+export interface WeatherData {
+  temp: number;
+  condition: string;
+  humidity: number;
+  updatedAt: Date;
+}
+

@@ -2,50 +2,16 @@
 
 import { motion } from "framer-motion";
 import { Cloud, Droplets, Sun, CloudRain } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useWeather } from "@/lib/hooks/useWeather";
 
 export default function WeatherForecast() {
-  const [weather, setWeather] = useState<{ temp: number; condition: string; humidity: number } | null>(null);
-
-  useEffect(() => {
-    const fetchWeather = async () => {
-      try {
-        const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
-        if (!apiKey) {
-          // Fallback data
-          setWeather({ temp: 28, condition: "Partly Cloudy", humidity: 75 });
-          return;
-        }
-
-        const response = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=Masbate,PH&appid=${apiKey}&units=metric`
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          if (data && data.main && data.weather && data.weather[0]) {
-            setWeather({
-              temp: Math.round(data.main.temp),
-              condition: data.weather[0].main,
-              humidity: data.main.humidity,
-            });
-          }
-        } else {
-          setWeather({ temp: 28, condition: "Partly Cloudy", humidity: 75 });
-        }
-      } catch (error) {
-        setWeather({ temp: 28, condition: "Partly Cloudy", humidity: 75 });
-      }
-    };
-
-    fetchWeather();
-  }, []);
+  const { weather, loading } = useWeather();
 
   const forecast = [
-    { day: "Today", temp: weather?.temp || 28, condition: weather?.condition || "Sunny", icon: Sun },
-    { day: "Tomorrow", temp: 29, condition: "Partly Cloudy", icon: Cloud },
-    { day: "Day 3", temp: 30, condition: "Sunny", icon: Sun },
-    { day: "Day 4", temp: 28, condition: "Rainy", icon: CloudRain },
+    { day: "Today", temp: weather?.temp ?? 28, condition: weather?.condition ?? "Sunny", icon: Sun },
+    { day: "Tomorrow", temp: (weather?.temp ?? 28) + 1, condition: "Partly Cloudy", icon: Cloud },
+    { day: "Day 3", temp: weather?.temp ?? 30, condition: "Sunny", icon: Sun },
+    { day: "Day 4", temp: (weather?.temp ?? 28) - 1, condition: "Rainy", icon: CloudRain },
   ];
 
   return (
@@ -80,7 +46,9 @@ export default function WeatherForecast() {
             >
               <p className="font-semibold text-gray-700 dark:text-gray-300 mb-2">{day.day}</p>
               <Icon className="h-12 w-12 mx-auto mb-3 text-blue-600" />
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{day.temp}°C</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                {loading && day.day === "Today" ? "—" : `${day.temp}°C`}
+              </p>
               <p className="text-sm text-gray-600 dark:text-gray-400">{day.condition}</p>
             </motion.div>
           );
@@ -99,6 +67,7 @@ export default function WeatherForecast() {
             <Droplets className="h-4 w-4" />
             <span>Humidity: {weather.humidity}%</span>
           </div>
+          <span className="text-xs">Updated live • refreshes every 10 min</span>
         </motion.div>
         )}
       </div>
