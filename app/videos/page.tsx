@@ -1,11 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
+import { Play } from "lucide-react";
 import { useRealtimeArticles } from "@/lib/hooks/useRealtimeArticles";
 import VideoCard from "@/components/VideoCard";
 import Sidebar from "@/components/Sidebar";
 import PageTransition from "@/components/PageTransition";
 import SectionAnimation from "@/components/SectionAnimation";
+import { getYouTubeEmbedUrl } from "@/lib/utils";
 
 export default function VideosPage() {
   const { articles, loading } = useRealtimeArticles("video", { limit: 50 });
@@ -58,9 +61,48 @@ export default function VideosPage() {
                     day: 'numeric'
                   })} • Live Coverage & Reports
                 </div>
-                <p className="text-newspaper-darkGray font-serif italic text-lg max-w-2xl mx-auto">
+                <p className="text-newspaper-darkGray font-serif italic text-lg max-w-2xl mx-auto mb-6">
                   Experience breaking news through our comprehensive video coverage, bringing you the stories that matter most
                 </p>
+                {articles.length > 0 && (articles[0].featuredImage || articles[0].videoEmbed) ? (() => {
+                  const thumbnailUrl = articles[0].featuredImage || 
+                    (articles[0].videoEmbed ? `https://img.youtube.com/vi/${getYouTubeEmbedUrl(articles[0].videoEmbed)?.split('/').pop()}/maxresdefault.jpg` : '');
+                  return (
+                    <div className="relative w-full h-40 sm:h-56 md:h-64 max-w-3xl mx-auto overflow-hidden rounded-lg border-2" style={{ borderColor: '#8b6f47' }}>
+                      <Image
+                        src={thumbnailUrl || "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=1600&q=80"}
+                        alt={articles[0].title || "Video thumbnail"}
+                        fill
+                        className="object-cover"
+                        style={{ filter: 'saturate(1.1) brightness(1.05)' }}
+                        sizes="(max-width: 768px) 100vw, 60vw"
+                        priority
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="bg-white/90 rounded-full p-4 border-2 border-white shadow-lg">
+                          <Play className="h-8 w-8 text-newspaper-black fill-newspaper-black" />
+                        </div>
+                      </div>
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <h2 className="text-white font-headline text-xl sm:text-2xl md:text-3xl font-bold drop-shadow-lg line-clamp-2">
+                          {articles[0].title}
+                        </h2>
+                      </div>
+                    </div>
+                  );
+                })() : (
+                  <div className="relative w-full h-40 sm:h-56 md:h-64 max-w-3xl mx-auto overflow-hidden rounded-lg border-2" style={{ borderColor: '#8b6f47' }}>
+                    <Image
+                      src="https://images.unsplash.com/photo-1495020689067-958852a7765e?w=1600&q=80"
+                      alt="Video gallery illustration"
+                      fill
+                      className="object-cover"
+                      style={{ filter: 'saturate(1.1) brightness(1.05)' }}
+                      sizes="(max-width: 768px) 100vw, 60vw"
+                    />
+                  </div>
+                )}
               </motion.div>
             </SectionAnimation>
           </div>

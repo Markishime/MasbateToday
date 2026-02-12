@@ -461,15 +461,39 @@ export default function TourismPage() {
                 <p className="font-serif italic text-lg max-w-2xl mx-auto mb-6" style={{ color: '#6b6b6b' }}>
                   Explore the best tourist destinations and hidden gems across Masbate province. From pristine beaches to historic landmarks, discover what makes Masbate special. Book your visit today!
                 </p>
-                <div className="relative w-full h-40 sm:h-56 md:h-64 max-w-3xl mx-auto overflow-hidden rounded-lg border-2" style={{ borderColor: '#8b6f47' }}>
-                  <Image
-                    src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80"
-                    alt="AI-style illustration of Masbate tourism destinations and coastline"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 60vw"
-                  />
-                </div>
+                {bestSpots.length > 0 && bestSpots[0].image ? (
+                  <div className="relative w-full h-40 sm:h-56 md:h-64 max-w-3xl mx-auto overflow-hidden rounded-lg border-2" style={{ borderColor: '#8b6f47' }}>
+                    <Image
+                      src={bestSpots[0].image}
+                      alt={bestSpots[0].name || "Masbate tourism destination"}
+                      fill
+                      className="object-cover"
+                      style={{ filter: 'saturate(1.15) brightness(1.08)' }}
+                      sizes="(max-width: 768px) 100vw, 60vw"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <h2 className="text-white font-headline text-xl sm:text-2xl md:text-3xl font-bold drop-shadow-lg line-clamp-2">
+                        {bestSpots[0].name}
+                      </h2>
+                      <p className="text-white/90 text-sm sm:text-base font-serif mt-2 drop-shadow-md line-clamp-1">
+                        {bestSpots[0].location}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="relative w-full h-40 sm:h-56 md:h-64 max-w-3xl mx-auto overflow-hidden rounded-lg border-2" style={{ borderColor: '#8b6f47' }}>
+                    <Image
+                      src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80"
+                      alt="AI-style illustration of Masbate tourism destinations and coastline"
+                      fill
+                      className="object-cover"
+                      style={{ filter: 'saturate(1.15) brightness(1.08)' }}
+                      sizes="(max-width: 768px) 100vw, 60vw"
+                    />
+                  </div>
+                )}
               </motion.div>
             </SectionAnimation>
           </div>

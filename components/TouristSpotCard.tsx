@@ -46,6 +46,8 @@ export default function TouristSpotCard({ spot, onBookNow, index }: TouristSpotC
           alt={imageAlt}
           fill
           className="object-cover transition-all duration-500 hover:scale-105"
+          style={{ filter: 'saturate(1.15) brightness(1.08)' }}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         {spot.isBestSpot && (

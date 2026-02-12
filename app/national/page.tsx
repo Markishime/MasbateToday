@@ -63,15 +63,36 @@ export default function NationalPage() {
                 <p className="text-newspaper-darkGray font-serif italic text-lg max-w-2xl mx-auto mb-6">
                   Comprehensive national news coverage from across the Philippines, bringing you the stories that matter most
                 </p>
-                <div className="relative w-full h-40 sm:h-56 md:h-64 max-w-3xl mx-auto overflow-hidden rounded-lg border-2" style={{ borderColor: '#8b6f47' }}>
-                  <Image
-                    src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1600&q=80"
-                    alt="AI-style illustration of the Philippines and national headlines"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 60vw"
-                  />
-                </div>
+                {articles.length > 0 && articles[0].featuredImage ? (
+                  <div className="relative w-full h-40 sm:h-56 md:h-64 max-w-3xl mx-auto overflow-hidden rounded-lg border-2" style={{ borderColor: '#8b6f47' }}>
+                    <Image
+                      src={articles[0].featuredImage}
+                      alt={articles[0].title || "Philippines national news"}
+                      fill
+                      className="object-cover"
+                      style={{ filter: 'saturate(1.1) brightness(1.05)' }}
+                      sizes="(max-width: 768px) 100vw, 60vw"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <h2 className="text-white font-headline text-xl sm:text-2xl md:text-3xl font-bold drop-shadow-lg line-clamp-2">
+                        {articles[0].title}
+                      </h2>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="relative w-full h-40 sm:h-56 md:h-64 max-w-3xl mx-auto overflow-hidden rounded-lg border-2" style={{ borderColor: '#8b6f47' }}>
+                    <Image
+                      src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1600&q=80"
+                      alt="AI-style illustration of the Philippines and national headlines"
+                      fill
+                      className="object-cover"
+                      style={{ filter: 'saturate(1.1) brightness(1.05)' }}
+                      sizes="(max-width: 768px) 100vw, 60vw"
+                    />
+                  </div>
+                )}
               </motion.div>
             </SectionAnimation>
           </div>

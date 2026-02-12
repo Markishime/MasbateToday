@@ -27,10 +27,12 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
             <div className={`relative ${featured ? "h-48 sm:h-56 md:h-64" : "h-32 sm:h-36 md:h-40"} overflow-hidden mb-3 border-2`} style={{ borderColor: '#8b6f47' }}>
               <Image
                 src={article.featuredImage}
-                alt={article.title}
+                alt={article.title || "Article image"}
                 fill
                 className="object-cover transition-all duration-300 hover:scale-105"
+                style={{ filter: 'saturate(1.1) brightness(1.05)' }}
                 sizes={featured ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 33vw"}
+                priority={featured}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
               {article.sponsored && (

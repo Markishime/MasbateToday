@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Article } from "@/types";
 
 interface NewsHeroProps {
@@ -37,6 +38,14 @@ export default function NewsHero({ articles = [] }: NewsHeroProps) {
 
     return () => clearInterval(interval);
   }, [displayItemsLength]);
+
+  const goToPrevious = () => {
+    setCurrentIndex((prev) => (prev - 1 + displayItemsLength) % displayItemsLength);
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % displayItemsLength);
+  };
   
   // Ensure we always have a valid image URL
   const currentImage = currentArticle?.featuredImage && currentArticle.featuredImage.trim() !== ""
@@ -44,108 +53,154 @@ export default function NewsHero({ articles = [] }: NewsHeroProps) {
     : fallbackImages[currentIndex % fallbackImages.length];
 
   return (
-    <div className="relative w-full min-h-[500px] max-h-[700px] overflow-hidden paper-texture" style={{ backgroundColor: '#f5f0e8' }}>
-      {/* Optional subtle background image */}
+    <div className="relative w-full min-h-[500px] max-h-[700px] overflow-hidden" style={{ backgroundColor: '#f5f0e8' }}>
+      {/* Prominent Background Image - Synced with Current Article */}
       {currentImage && currentImage.trim() !== "" && (
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.05 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5 }}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.8 }}
             className="absolute inset-0"
           >
             <Image
               src={currentImage}
-              alt={currentArticle?.title || "News background"}
+              alt={currentArticle?.title || "Masbate Today News"}
               fill
               className="object-cover"
               priority
               sizes="(max-width: 768px) 100vw, 66vw"
             />
+            {/* Dark overlay for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
           </motion.div>
         </AnimatePresence>
+      )}
+
+      {/* Fallback gradient if no image */}
+      {(!currentImage || currentImage.trim() === "") && (
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0038A8] via-[#059669] to-[#CE1126]" />
+      )}
+
+      {/* Navigation Arrows */}
+      {displayItems.length > 1 && (
+        <>
+          <button
+            onClick={goToPrevious}
+            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm rounded-full p-3 sm:p-4 transition-colors z-20"
+            aria-label="Previous article"
+          >
+            <ChevronLeft className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+          </button>
+          <button
+            onClick={goToNext}
+            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm rounded-full p-3 sm:p-4 transition-colors z-20"
+            aria-label="Next article"
+          >
+            <ChevronRight className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+          </button>
+        </>
       )}
 
       {/* Newspaper Front Page Content */}
       <div className="relative z-10 h-full flex flex-col justify-center p-6 sm:p-8">
         <div className="w-full">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="space-y-5"
-          >
-            {/* Main Title - MASBATE TODAY */}
-            <div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-headline uppercase leading-none mb-3" style={{ color: '#1a1a1a' }}>
-                MASBATE TODAY
-              </h1>
-            </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.6 }}
+              className="space-y-5"
+            >
+              {/* Main Title - MASBATE TODAY */}
+              <div>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-headline uppercase leading-none mb-3 text-white drop-shadow-lg">
+                  MASBATE TODAY
+                </h1>
+              </div>
 
-            {/* Description */}
-            <div className="text-base sm:text-lg md:text-xl font-serif italic mb-3" style={{ color: '#5c4a37' }}>
-              {currentArticle?.excerpt || "Your trusted source for breaking news, events, and updates from Masbate and across the Philippines"}
-            </div>
-
-            {/* Published Date */}
-            <div className="text-sm font-serif italic mb-5" style={{ color: '#6b6b6b' }}>
-              Published {new Date().toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric'
-              })}
-            </div>
-
-            {/* Explore News Button and Navigation */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <Link href="/masbate">
-                <motion.button
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.8 }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 font-serif font-bold uppercase text-sm tracking-widest border-2 transition-all duration-300 shadow-lg"
-                  style={{ 
-                    backgroundColor: '#1a1a1a', 
-                    color: '#ffffff',
-                    borderColor: '#1a1a1a'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#5c4a37';
-                    e.currentTarget.style.borderColor = '#5c4a37';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#1a1a1a';
-                    e.currentTarget.style.borderColor = '#1a1a1a';
-                  }}
-                >
-                  EXPLORE NEWS
-                </motion.button>
-              </Link>
-
-              {/* Navigation dots */}
-              {displayItems.length > 1 && (
-                <div className="flex items-center space-x-2 mt-2 sm:mt-0">
-                  {displayItems.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentIndex(index)}
-                      className={`h-3 w-3 transition-all duration-300 rounded-sm ${
-                        index === currentIndex
-                          ? "bg-newspaper-black"
-                          : "bg-gray-300 hover:bg-gray-400"
-                      }`}
-                      style={index === currentIndex ? { backgroundColor: '#1a1a1a' } : {}}
-                      aria-label={`Go to story ${index + 1}`}
-                    />
-                  ))}
+              {/* Article Title - Synced with Image */}
+              {currentArticle?.title && (
+                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-3 drop-shadow-md line-clamp-2">
+                  {currentArticle.title}
                 </div>
               )}
-            </div>
-          </motion.div>
+
+              {/* Description - Synced with Current Article */}
+              <div className="text-base sm:text-lg md:text-xl font-serif italic mb-3 text-white/95 drop-shadow-md line-clamp-2">
+                {currentArticle?.excerpt || "Your trusted source for breaking news, events, and updates from Masbate and across the Philippines"}
+              </div>
+
+              {/* Published Date */}
+              <div className="text-sm font-serif italic mb-5 text-white/90">
+                Published {currentArticle?.publishedAt 
+                  ? new Date(currentArticle.publishedAt).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric'
+                    })
+                  : new Date().toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric'
+                    })
+                }
+              </div>
+
+              {/* Explore News Button and Navigation */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                {currentArticle ? (
+                  <Link href={`/article/${currentArticle.id}`}>
+                    <motion.button
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.6, delay: 0.2 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-8 py-4 font-serif font-bold uppercase text-sm tracking-widest border-2 transition-all duration-300 shadow-lg bg-white text-[#1a1a1a] border-white hover:bg-[#FCD116] hover:border-[#FCD116]"
+                    >
+                      READ MORE
+                    </motion.button>
+                  </Link>
+                ) : (
+                  <Link href="/masbate">
+                    <motion.button
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.6, delay: 0.2 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-8 py-4 font-serif font-bold uppercase text-sm tracking-widest border-2 transition-all duration-300 shadow-lg bg-white text-[#1a1a1a] border-white hover:bg-[#FCD116] hover:border-[#FCD116]"
+                    >
+                      EXPLORE NEWS
+                    </motion.button>
+                  </Link>
+                )}
+
+                {/* Navigation dots - Synced with Carousel */}
+                {displayItems.length > 1 && (
+                  <div className="flex items-center space-x-2 mt-2 sm:mt-0">
+                    {displayItems.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentIndex(index)}
+                        className={`h-3 w-3 transition-all duration-300 rounded-sm ${
+                          index === currentIndex
+                            ? "bg-white w-8"
+                            : "bg-white/50 hover:bg-white/75"
+                        }`}
+                        aria-label={`Go to story ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
 

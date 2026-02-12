@@ -29,9 +29,10 @@ export default function VideoCard({ article }: VideoCardProps) {
             {thumbnailUrl ? (
               <Image
                 src={thumbnailUrl}
-                alt={article.title}
+                alt={article.title || "Video thumbnail"}
                 fill
                 className="object-cover transition-all duration-300 hover:scale-105"
+                style={{ filter: 'saturate(1.1) brightness(1.05)' }}
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             ) : (
@@ -39,7 +40,7 @@ export default function VideoCard({ article }: VideoCardProps) {
                 <Play className="h-12 w-12 text-newspaper-darkGray" />
               </div>
             )}
-            <div className="absolute inset-0 flex items-center justify-center bg-newspaper-black/60 group-hover:bg-newspaper-black/70 transition-colors">
+            <div className="absolute inset-0 flex items-center justify-center bg-newspaper-black/50 group-hover:bg-newspaper-black/60 transition-colors">
               <div className="bg-white rounded-full p-3 group-hover:scale-110 transition-transform border-2 border-newspaper-black">
                 <Play className="h-6 w-6 text-newspaper-black fill-newspaper-black" />
               </div>
