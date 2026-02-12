@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { QueryClientProvider } from "@/components/QueryClientProvider";
 import { LanguageProvider } from "@/lib/contexts/LanguageContext";
@@ -35,16 +36,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
+      <body className={`${inter.variable} font-sans antialiased`} style={{ backgroundColor: '#f5f0e8' }}>
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-          <script
+          <Script
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
             crossOrigin="anonymous"
+            strategy="afterInteractive"
           />
         )}
-      </head>
-      <body className={`${inter.variable} font-sans antialiased`} style={{ backgroundColor: '#f5f0e8' }}>
         <QueryClientProvider>
           <LanguageProvider>
             <div className="flex min-h-screen flex-col" style={{ backgroundColor: '#f5f0e8' }}>
