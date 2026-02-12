@@ -59,7 +59,7 @@ export default function NewsTimeline({ articles }: NewsTimelineProps) {
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 sm:p-6 hover:shadow-xl transition-all border-2 border-transparent hover:border-[#FCD116]">
                     <div className="flex flex-col sm:flex-row gap-4">
                       {article.featuredImage && (
-                        <div className="relative w-full sm:w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden">
+                        <div className="relative w-full sm:w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden border-2" style={{ borderColor: '#8b6f47' }}>
                           <Image
                             src={article.featuredImage}
                             alt={article.title}

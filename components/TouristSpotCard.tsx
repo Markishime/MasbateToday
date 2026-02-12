@@ -40,13 +40,14 @@ export default function TouristSpotCard({ spot, onBookNow, index }: TouristSpotC
       className="newspaper-clip bg-white overflow-hidden hover:border-newspaper-brown transition-all duration-300"
     >
       {/* Image */}
-      <div className="relative h-48 w-full overflow-hidden">
+      <div className="relative h-48 w-full overflow-hidden border-b-4" style={{ borderColor: '#8b6f47' }}>
         <Image
           src={imageSrc}
           alt={imageAlt}
           fill
-          className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+          className="object-cover transition-all duration-500 hover:scale-105"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         {spot.isBestSpot && (
           <div className="absolute top-2 right-2 px-3 py-1 font-serif font-bold text-xs uppercase tracking-wide border-2 border-white shadow-lg" style={{ backgroundColor: '#b22222', color: '#ffffff' }}>
             ⭐ BEST SPOT

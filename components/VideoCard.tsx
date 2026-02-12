@@ -25,13 +25,13 @@ export default function VideoCard({ article }: VideoCardProps) {
     >
       <Link href={`/article/${article.id}`}>
         <div className="newspaper-clip bg-white p-4 hover:bg-white transition-colors duration-300">
-          <div className="relative h-40 overflow-hidden mb-3">
+          <div className="relative h-40 overflow-hidden mb-3 border-2" style={{ borderColor: '#8b6f47' }}>
             {thumbnailUrl ? (
               <Image
                 src={thumbnailUrl}
                 alt={article.title}
                 fill
-                className="object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                className="object-cover transition-all duration-300 hover:scale-105"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             ) : (

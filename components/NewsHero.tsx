@@ -60,7 +60,7 @@ export default function NewsHero({ articles = [] }: NewsHeroProps) {
               src={currentImage}
               alt={currentArticle?.title || "News background"}
               fill
-              className="object-cover grayscale"
+              className="object-cover"
               priority
               sizes="(max-width: 768px) 100vw, 66vw"
             />

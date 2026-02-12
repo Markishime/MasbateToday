@@ -36,12 +36,12 @@ export default function MostRead({ articles }: MostReadProps) {
               {index + 1}
             </div>
             {article.featuredImage && (
-              <div className="relative w-16 h-16 flex-shrink-0 rounded overflow-hidden">
+              <div className="relative w-16 h-16 flex-shrink-0 rounded overflow-hidden border-2" style={{ borderColor: '#8b6f47' }}>
                 <Image
                   src={article.featuredImage}
                   alt={article.title || "Article"}
                   fill
-                  className="object-cover group-hover:scale-110 transition-transform grayscale group-hover:grayscale-0"
+                  className="object-cover group-hover:scale-110 transition-transform"
                   sizes="64px"
                 />
               </div>

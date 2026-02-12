@@ -28,7 +28,7 @@ export default function RelatedArticles({ articles }: RelatedArticlesProps) {
             <Link href={`/article/${article.id}`}>
               <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
                 {article.featuredImage && (
-                  <div className="relative h-48 overflow-hidden">
+                  <div className="relative h-48 overflow-hidden border-b-4" style={{ borderColor: '#8b6f47' }}>
                     <Image
                       src={article.featuredImage}
                       alt={article.title}

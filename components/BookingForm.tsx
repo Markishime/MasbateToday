@@ -142,12 +142,12 @@ export default function BookingForm({ spot, onClose, emailTo }: BookingFormProps
             <div className="grid grid-cols-1 lg:grid-cols-2">
               {/* Left Side - Spot Info */}
               <div className="p-6 border-r-2 border-newspaper-black">
-                <div className="relative h-48 mb-4">
+                <div className="relative h-48 mb-4 border-4 overflow-hidden" style={{ borderColor: '#8b6f47' }}>
                   <Image
                     src={spot.image}
                     alt={spot.name}
                     fill
-                    className="object-cover"
+                    className="object-cover hover:scale-105 transition-transform duration-500"
                   />
                 </div>
                 <h3 className="font-headline text-xl text-newspaper-black uppercase mb-3">
