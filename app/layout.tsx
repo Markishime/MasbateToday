@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   description: "Stay informed with the latest news, events, and updates from Masbate, Philippines. Local news coverage and national Philippine news.",
   keywords: "Masbate, Philippines, news, local news, events, updates, Masbate Today",
   authors: [{ name: "Fel C. Monares" }],
+  other: {
+    "google-adsense-account": "ca-pub-6273955120007090",
+  },
   openGraph: {
     title: "Masbate Today News",
     description: "Local news, events, and updates from Masbate, Philippines",
